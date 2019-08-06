@@ -1,0 +1,65 @@
+scalar Time
+
+interface Node {
+    id: ID!
+}
+
+# 分页
+input Page {
+    offset: Int
+    limit: Int
+}
+
+# 用户
+type User implements Node {
+    id: ID!
+    name: String!
+    avatar: String!
+    posts(page: Page): [Post]
+}
+
+# 新建用户
+input UserBase {
+    name: String!
+    avatar: String
+}
+
+# 评论
+type Comment implements Node {
+    id: ID!
+    author: User!
+    content: String!
+    reply: Comment
+}
+
+# 新建评论
+input CommentBase {
+    content: String!
+    reply: ID
+    post: ID!
+}
+
+# 文章
+type Post implements Node {
+    id: ID!
+    title: String!
+    author: User!
+    content: String!
+    created: Time!
+    comments(page: Page): [Comment]
+}
+
+input PostBase {
+    title: String!
+    content: String!
+}
+
+type Query {
+    me: User
+}
+
+type Mutation {
+    createUser(input: UserBase): User
+    createPost(input: PostBase): Post
+    createComment(input: CommentBase): Comment
+}

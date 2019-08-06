@@ -1,0 +1,8 @@
+schema: "schema/*.graphql"
+model:
+  filename: gen/generated.go
+  package: gen
+
+resolver:
+  filename: resolver/resolver.go # where to write them
+  type: resolver  # what's the resolver root implementation type called?
